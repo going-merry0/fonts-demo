@@ -90,7 +90,7 @@
       <a href="https://github.com/hsiaosiyuan0/fonts" target="_black">fonts</a>
     </h2>
     <div>
-      <textarea id="src" cols="30" rows="10"></textarea>
+      <textarea id="src" cols="30" rows="10">永和九年，岁在癸丑。暮春之初，会於会稽山阴之兰亭，修禊事也。</textarea>
     </div>
     <div>
       <select id="fonts">
@@ -145,7 +145,6 @@
   });
 
   const loadCss = (font, text, before, success, complete) => {
-    console.log(font, text);
     $.ajax({
       url: "/fonts",
       data: { font, text },
