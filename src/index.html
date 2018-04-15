@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>fonts - demo</title>
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
@@ -59,11 +65,30 @@
     #notify.err {
       background-color: #DD4C35;
     }
+
+    #bottom {
+      position: fixed;
+      height: 35px;
+      width: 100%;
+      bottom: 0;
+      text-align: center;
+      font-size: 25px;
+    }
+
+    h2 {
+      position: absolute;
+      left: 15px;
+      top: 10px;
+      font-weight: 300;
+    }
   </style>
 </head>
 
 <body>
   <div id="main">
+    <h2>demo for
+      <a href="https://github.com/hsiaosiyuan0/fonts" target="_black">fonts</a>
+    </h2>
     <div>
       <textarea id="src" cols="30" rows="10"></textarea>
     </div>
@@ -77,6 +102,11 @@
     </div>
     <div id="preview"></div>
     <div id="notify" class="ok">OK</div>
+  </div>
+  <div id="bottom">
+    <a class="github" href="https://github.com/hsiaosiyuan0">
+      <i class="fa fa-github"></i>
+    </a>
   </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
