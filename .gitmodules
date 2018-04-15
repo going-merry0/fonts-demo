@@ -1,0 +1,3 @@
+[submodule "src/fonts"]
+	path = src/fonts
+	url = https://github.com/hsiaosiyuan0/fonts

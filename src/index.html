@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>fonts - demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    #main {
+      width: 500px;
+      margin: 50px auto auto auto;
+      text-align: center;
+    }
+
+    #src {
+      width: 300px;
+      height: 80px;
+      resize: vertical;
+    }
+
+    #btn-preview {
+      margin-top: 15px;
+    }
+
+    #preview {
+      margin-top: 20px;
+      width: 300px;
+      padding: 10px;
+      box-sizing: border-box;
+      margin: 20px auto auto auto;
+      background: #eee;
+      border-radius: 3px;
+      font-size: 20px;
+    }
+
+    #notify {
+      display: none;
+      max-width: 300px;
+      padding: 5px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      border-radius: 3px;
+      color: #fff;
+    }
+
+    #notify.ok {
+      background-color: #30AD62;
+    }
+
+    #notify.err {
+      background-color: #DD4C35;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <div>
+      <textarea id="src" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <select id="fonts">
+        <option value="0">王羲之书法字体</option>
+        <option value="1">方正瘦金书简体</option>
+        <option value="2">米芾书法字体</option>
+      </select>
+      <button id="btn-preview">preview</button>
+    </div>
+    <div id="preview"></div>
+    <div id="notify" class="ok">OK</div>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+<script type="text/javascript">
+  const srcEl = $("#src");
+  const previewEl = $("#preview")
+  const btnPreview = $("#btn-preview");
+  const fontsDDL = $("#fonts");
+  const notifyEl = $("#notify");
+
+  btnPreview.on("click", () => {
+    const src = srcEl.val();
+    previewEl.html(src);
+    const font = fontsDDL.val();
+
+    const before = () => {
+      btnPreview.attr("disabled", true);
+    };
+
+    const complete = () => {
+      btnPreview.attr("disabled", false);
+    };
+
+    const success = (resp) => {
+      if (resp.code !== 0) {
+        notify(resp.msg, "err");
+        return;
+      }
+      notify("success", "ok");
+      const { css, fontName } = resp.data;
+      appendCss(css);
+      previewEl.css("font-family", fontName);
+    };
+
+    loadCss(font, src, before, success, complete);
+  });
+
+  const loadCss = (font, text, before, success, complete) => {
+    console.log(font, text);
+    $.ajax({
+      url: "/fonts",
+      data: { font, text },
+      dataType: "json",
+      before,
+      success,
+      error() {
+        notify("unexpected error", "err")
+      },
+      complete
+    });
+  };
+
+  const appendCss = (css) => {
+    $("<style>")
+      .prop("type", "text/css")
+      .html(css)
+      .appendTo("head");
+  };
+
+  let tick = 0;
+  const notify = (msg, type) => {
+    clearTimeout(tick);
+    notifyEl.html(msg).removeClass().addClass(type).show();
+    tick = setTimeout(() => {
+      notifyEl.hide();
+    }, 3000);
+  };
+</script>
+
+</html>

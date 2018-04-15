@@ -1,0 +1,26 @@
+{
+  "name": "fonts-demo",
+  "version": "0.0.1",
+  "description": "demo for https://github.com/hsiaosiyuan0/fonts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsiaosiyuan0/fonts-demo.git"
+  },
+  "keywords": [
+    "font",
+    "slice"
+  ],
+  "author": "hsiaosiyuan0@outlook.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hsiaosiyuan0/fonts-demo/issues"
+  },
+  "homepage": "https://github.com/hsiaosiyuan0/fonts-demo#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
