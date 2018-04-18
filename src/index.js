@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const util = require("util");
 const path = require("path");
-const fontKit = require("./fonts/dist/src");
+const fontKit = require("font-toolkit");
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
@@ -19,13 +19,22 @@ app.get("/", async (req, res) => {
   }
 });
 
-const fonts = ["王羲之书法字体", "方正瘦金书简体", "米芾书法字体"];
-const fontNames = ["wxz", "sj", "mf"];
+const fonts = [
+  "王羲之书法字体",
+  "方正瘦金书简体",
+  "米芾书法字体",
+  "颜真卿书法字体",
+  "鲁迅字体",
+  "黄庭坚书法字体",
+  "汉仪南宫体简",
+  "思源黑体"
+];
+const fontNames = ["wxz", "sj", "mf", "yzq", "lx", "htj", "hy", "sy"];
 
 app.get("/fonts", async (req, res) => {
   const { font, text } = req.query;
   const resp = { code: 0, msg: "", data: null };
-  if (!font || !text || !["0", "1", "2"].includes(font)) {
+  if (!font || !text || !fonts[font]) {
     resp.code = 1;
     resp.msg = "deformed request";
     res.send(resp);
@@ -38,8 +47,8 @@ app.get("/fonts", async (req, res) => {
     const srcFont = new fontKit.Font(buf);
     srcFont.satisfy();
 
-    const mini = new fontKit.Minifier();
-    const newFont = mini.filter(srcFont, text);
+    const mini = new fontKit.Minifier(srcFont);
+    const newFont = mini.with(text);
     const outName = `${new Date().getTime()}.ttf`;
     const dist = path.resolve(__dirname, "../tmp", outName);
     const wb = new fontKit.BufferWriter();
@@ -69,4 +78,4 @@ app.get("/fonts", async (req, res) => {
 
 app.get("/*.ttf", express.static("../tmp"));
 
-app.listen(3535, () => console.log("Example app listening on port 3000!"));
+app.listen(3535);
